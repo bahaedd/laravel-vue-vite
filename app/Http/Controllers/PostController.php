@@ -14,7 +14,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::all();
+        return Inertia::render('Posts/Index', ['posts' => $posts]);
     }
 
     /**
@@ -22,7 +23,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Posts/Create');
     }
 
     /**
@@ -30,7 +31,14 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Validator::make($request->all(), [
+            'title' => ['required'],
+            'body' => ['required'],
+        ])->validate();
+   
+        Post::create($request->all());
+    
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -46,22 +54,31 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return Inertia::render('Posts/Edit', [
+            'post' => $post
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update($id, Request $request)
     {
-        //
+        Validator::make($request->all(), [
+            'title' => ['required'],
+            'body' => ['required'],
+        ])->validate();
+    
+        Post::find($id)->update($request->all());
+        return redirect()->route('posts.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        //
+        Post::find($id)->delete();
+        return redirect()->route('posts.index');
     }
 }
