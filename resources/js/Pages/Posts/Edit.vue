@@ -13,8 +13,8 @@ const props = defineProps({
 });
 
 const form = useForm({
-    title: '',
-    body: ''
+    title: props.post.title,
+    body: props.post.body
 });
 
 const submit = () => {
@@ -53,7 +53,7 @@ const submit = () => {
 
                                         <BreezeLabel for="title" value="Title" />
                                         
-                                        <BreezeInput 
+                                        <BreezeInput
                                             id="title" 
                                             type="text" 
                                             class="mt-1 block w-full" 
