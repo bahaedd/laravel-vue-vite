@@ -19,6 +19,8 @@ use App\Http\Controllers\PostController;
 
 Route::resource('posts', PostController::class);
 
+
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -39,3 +41,7 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::view('/{any}', 'welcome')
+    ->middleware(['auth'])
+    ->where('any', '.*');
